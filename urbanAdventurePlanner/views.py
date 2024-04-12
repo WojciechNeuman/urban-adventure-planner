@@ -30,4 +30,8 @@ def sign_up(request):
 def password_reset(request):
     # return render(request, 'registration/password_reset.html')
     return render(request, 'registration/password_reset.html')
+
+
+def add_adventure(request):
+    return render(request, 'main/add_adventure.html')
     
