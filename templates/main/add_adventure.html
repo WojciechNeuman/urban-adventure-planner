@@ -1,27 +1,48 @@
 {% extends 'main/base.html' %}
 
+{% load static %}
+
 {% block head %}
 <title>UAP - profile</title>
 {% endblock %} 
 
 {% block body %}
-<div class="container mt-5">
-    HELLO ADD ADVENTURE
+
+<div class="container-fluid">
+    <div class="row h-100">
+        <div class="col-lg-6 d-flex flex-column justify-content-between align-items-stretch" style="padding: 5%;">
+            <div id="map" style="width: 600px; height: 600px;"></div>
+        </div>
+        <!-- Right container -->
+        <div class="col-lg-6 d-flex flex-column justify-content-center align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p style="color: #004AAD; font-size: 1.2rem;">Add points on the map</p>
+                        <button class="btn btn-primary" id="generatePathBtn"  style="background-color: #004AAD;"  onclick="generatePath()" disabled>Generate path</button>
+                    </div>
+                </div>
+                <input type="text" id="adventureName" placeholder="Adventure Name">
+                <textarea id="adventureDescription" placeholder="Adventure Description"></textarea>
+                
+                <!-- Form -->
+                <form id="pointForm">
+                    <input type="text" id="latitude" placeholder="Latitude" readonly>
+                    <input type="text" id="longitude" placeholder="Longitude" readonly>
+                    <input type="text" id="pointDescription" placeholder="Point Description">
+                </form>
+                
+                <!-- Button -->
+                <button onclick="createAdventure()">Create</button>
+                
+                <!-- Below the form -->
+                <div id="pointList"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div id="map" style="height: 600px; width: 600px"></div>
-
-<script>
-var map = L.map('map').setView([51.505, -0.09], 13);
-
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-
-L.marker([51.5, -0.09]).addTo(map)
-    .bindPopup('A pretty CSS popup.<br> Easily customizable.')
-    .openPopup();
-
-</script>
+<script src="{% static 'js/add_post_map.js' %}"></script>
 
 {% endblock %}
+ 
