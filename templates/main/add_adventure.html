@@ -22,21 +22,29 @@
                         <button class="btn btn-primary" id="generatePathBtn"  style="background-color: #004AAD;"  onclick="generatePath()" disabled>Generate path</button>
                     </div>
                 </div>
-                <input type="text" id="adventureName" placeholder="Adventure Name">
+                <h4>Route Description</h4>
+                {{ route_form.as_p}}
+
+                <h4>Points description</h4>
+                <!-- {{ point_form.as_p}} -->
+                
+                <div id="point-form">
+                    {% include 'partials/add_point_form.html' %}
+                </div>
+
+                <!-- <input type="text" id="adventureName" placeholder="Adventure Name">
                 <textarea id="adventureDescription" placeholder="Adventure Description"></textarea>
                 
-                <!-- Form -->
                 <form id="pointForm">
                     <input type="text" id="latitude" placeholder="Latitude" readonly>
                     <input type="text" id="longitude" placeholder="Longitude" readonly>
                     <input type="text" id="pointDescription" placeholder="Point Description">
                 </form>
                 
-                <!-- Button -->
                 <button onclick="createAdventure()">Create</button>
                 
-                <!-- Below the form -->
-                <div id="pointList"></div>
+
+                <div id="pointList"></div> -->
             </div>
         </div>
     </div>

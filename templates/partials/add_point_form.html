@@ -1,0 +1,20 @@
+<form>
+    <div class="row">
+        <div class="col-5 col-md-3">
+            <label for="{{ point_form.latitude.id_for_label }}">{{ point_form.latitude.label }}</label>
+            {{ point_form.latitude }}
+        </div>
+        <div class="col-5 col-md-3">
+            <label for="{{ point_form.longitude.id_for_label }}">{{ point_form.longitude.label }}</label>
+            {{ point_form.longitude }}
+        </div>
+        <div class="col-5 col-md-3">
+            <label for="{{ point_form.description.id_for_label }}">{{ point_form.description.label }}</label>
+            {{ point_form.description }}
+        </div>
+        <div class="col-3 align-self-end">
+            <button class="btn" style="background-color: #004AAD"; type="submit">Submit</button>
+        </div>
+
+    </div>
+</form>

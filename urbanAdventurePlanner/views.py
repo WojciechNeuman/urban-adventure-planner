@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import RegisterForm
+from .forms import RegisterForm, PointForm, RouteForm
 from django.contrib.auth import login, logout, authenticate
 
 
@@ -33,5 +33,6 @@ def password_reset(request):
 
 
 def add_adventure(request):
-    return render(request, 'main/add_adventure.html')
+    context = {'route_form': RouteForm(), 'point_form': PointForm()}
+    return render(request, 'main/add_adventure.html', context=context)
     
