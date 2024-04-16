@@ -36,3 +36,6 @@ def add_adventure(request):
     context = {'route_form': RouteForm(), 'point_form': PointForm()}
     return render(request, 'main/add_adventure.html', context=context)
     
+def add_point_form(request):
+    template_name = 'partials/add_point_form.html'
+    return render(request, template_name, {'form': PointForm()})

@@ -13,7 +13,10 @@
             {{ point_form.description }}
         </div>
         <div class="col-3 align-self-end">
-            <button class="btn" style="background-color: #004AAD"; type="submit">Submit</button>
+            <button class="btn" style="background-color: #004AAD;" type="submit"
+            hx-get="{% url 'add-point' %}"
+            hx-target="#point-form"
+            hx-swap="beforeend">Submit</button>
         </div>
 
     </div>

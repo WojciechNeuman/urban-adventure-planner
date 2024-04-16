@@ -9,6 +9,6 @@ urlpatterns = [
     path('profile', views.profile, name='profile-page'),
     path('password_reset', views.password_reset, name='password_reset'),
     path('add-adventure', views.add_adventure, name='add-adventure'),
-
+    path('add-adventure/add-point', views.add_point_form, name='add-point'),
 ]
 

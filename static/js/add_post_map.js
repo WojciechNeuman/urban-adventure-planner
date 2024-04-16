@@ -24,21 +24,19 @@ function generatePath() {
         return marker.getLatLng();
     });
 
-    var numMarkers = markersList.length;
-    
-    // AJAX request to fetch the HTML content of the partial
-    $.ajax({
-        url: 'templates/partials/add_point_form.html',
-        method: 'GET',
-        success: function(html) {
-            // Append the HTML content to the container
-            for (var i = 0; i < numMarkers; i++) {
-                $('#point-form').append(html);
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Error fetching partial:', error);
-        }
+    // AJAX request to fetch add_point_form.html and append it for each marker
+    markersList.forEach(function(point, index) {
+        var url = '/add-adventure/add-point';  // Use the correct URL pattern
+        var container = document.getElementById('point-form');
+
+        // Perform the Htmx request
+        container.hxGet(url, {
+            target: container,
+            params: {},
+            spinner: 'dots',
+            historyUpdate: 'replace',
+            headers: {}
+        });
     });
 }
 

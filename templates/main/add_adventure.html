@@ -32,6 +32,13 @@
                     {% include 'partials/add_point_form.html' %}
                 </div>
 
+                <div class="col-3 align-self-end">
+                    <button class="btn" style="background-color: #004AAD;" type="submit"
+                    hx-get="{% url 'add-point' %}"
+                    hx-target="#point-form"
+                    hx-swap="beforeend">Add point</button>
+                </div>
+
                 <!-- <input type="text" id="adventureName" placeholder="Adventure Name">
                 <textarea id="adventureDescription" placeholder="Adventure Description"></textarea>
                 
