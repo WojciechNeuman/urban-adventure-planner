@@ -1,23 +1,20 @@
-<form>
-    <div class="row">
-        <div class="col-5 col-md-3">
+<form style="margin-bottom: 10px;" id="point-form">
+    <div class="row row-cols-4">
+        <div class="col-sm-1">
+            <label for="index{{ index }}">Index</label>
+            <input type="text" id="index{{ index }}" name="index{{ index }}" value="{{ index }}">
+        </div>
+        <div class="col-sm-2">
             <label for="{{ point_form.latitude.id_for_label }}">{{ point_form.latitude.label }}</label>
-            {{ point_form.latitude }}
+            <input type="text" id="{{ point_form.latitude.id_for_label }}" name="{{ point_form.latitude.name }}" value="{{ point_form.latitude.value }}">
         </div>
-        <div class="col-5 col-md-3">
+        <div class="col-sm-2">
             <label for="{{ point_form.longitude.id_for_label }}">{{ point_form.longitude.label }}</label>
-            {{ point_form.longitude }}
+            <input type="text" id="{{ point_form.longitude.id_for_label }}" name="{{ point_form.longitude.name }}" value="{{ point_form.longitude.value }}">
         </div>
-        <div class="col-5 col-md-3">
+        <div class="col-sm-6">
             <label for="{{ point_form.description.id_for_label }}">{{ point_form.description.label }}</label>
             {{ point_form.description }}
         </div>
-        <div class="col-3 align-self-end">
-            <button class="btn" style="background-color: #004AAD;" type="submit"
-            hx-get="{% url 'add-point' %}"
-            hx-target="#point-form"
-            hx-swap="beforeend">Submit</button>
-        </div>
-
     </div>
 </form>

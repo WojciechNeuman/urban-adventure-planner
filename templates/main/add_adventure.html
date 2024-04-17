@@ -23,35 +23,27 @@
                     </div>
                 </div>
                 <h4>Route Description</h4>
-                {{ route_form.as_p}}
-
-                <h4>Points description</h4>
-                <!-- {{ point_form.as_p}} -->
+                <form id="route-form" method="post" action="{% url 'add-adventure' %}">
+                    {% csrf_token %}
+                    {{ route_form.as_p }}
                 
-                <div id="point-form">
-                    {% include 'partials/add_point_form.html' %}
-                </div>
-
-                <div class="col-3 align-self-end">
-                    <button class="btn" style="background-color: #004AAD;" type="submit"
-                    hx-get="{% url 'add-point' %}"
-                    hx-target="#point-form"
-                    hx-swap="beforeend">Add point</button>
-                </div>
-
-                <!-- <input type="text" id="adventureName" placeholder="Adventure Name">
-                <textarea id="adventureDescription" placeholder="Adventure Description"></textarea>
+                    <h4>Points description</h4>
+                    <div id="all-point-forms">
+                        {{ point_formset.management_form }}
+                        {% for form in point_formset %}
+                            {{ form.as_p }}
+                        {% endfor %}
+                    </div>
                 
-                <form id="pointForm">
-                    <input type="text" id="latitude" placeholder="Latitude" readonly>
-                    <input type="text" id="longitude" placeholder="Longitude" readonly>
-                    <input type="text" id="pointDescription" placeholder="Point Description">
+                    <input type="submit" value="Add adventure">
                 </form>
-                
-                <button onclick="createAdventure()">Create</button>
-                
+            </div>
 
-                <div id="pointList"></div> -->
+            <button onclick="displayFormInfo()">Display Form Info</button>
+            <div class="col-3 align-self-end">
+                <button class="btn" style="background-color: #004AAD;" type="button" onclick="addAdventure()">
+                    Add Adventure
+                </button>
             </div>
         </div>
     </div>
