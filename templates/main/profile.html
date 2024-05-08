@@ -10,6 +10,19 @@
         <div class="col-md-6 offset-md-3">
             <h1 class="text-center">PROFILE</h1>
             <div class="text-center">
+                <p>Welcome, {{ user }}</p>
+                <p>Email: {{ user.email }}</p>
+                <p>Total Routes: {{ user_routes|length }}</p>  <!-- Add this line -->
+                <p>Your Routes:</p>
+                <select name="route_select" id="route_select">
+                    <option value="">Select a route</option>
+                    {% for route in user_routes %}
+                        <option value="{{ route.pk }}">{{ route.description }}</option>
+                    {% empty %}
+                        <option value="" disabled>No routes created yet.</option>
+                    {% endfor %}
+                </select>
+                <button id="view_route_btn" class="btn btn-primary">View Route</button>
                 <a href="/password-reset" class="btn btn-primary" style="background-color: #8C00FF99;">Reset Password</a>
                 <a href="/logout" class="btn btn-primary" style="background-color: #8C00FF99;">Logout</a>
             </div>

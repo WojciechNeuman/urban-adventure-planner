@@ -15,7 +15,9 @@ def home(request):
     return render(request, 'main/home.html')
 
 def profile(request):
-    return render(request, 'main/profile.html')
+    user = request.user
+    user_routes = Route.objects.filter(user_id=user)
+    return render(request, 'main/profile.html', {'user': user, 'user_routes': user_routes})
 
 def sign_up(request):
     if request.method == "POST":
