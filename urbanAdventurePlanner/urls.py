@@ -11,5 +11,7 @@ urlpatterns = [
     path('add-adventure', views.add_adventure, name='add-adventure'),
     path('add-adventure/add-point', views.add_point_form, name='add-point'), # URL path / view in use / link in {% %}
     path('czechowice-dziedzice', views.czechowice_dziedzice, name='czechowice-dziedzice'),
+    path('display_routes_in_city', views.display_routes_in_city, name='display_routes_in_city'),
+    path('display_route', views.display_route, name='display_route'),
     path('krakow', views.krakow, name='krakow'),
 ]

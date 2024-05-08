@@ -56,10 +56,11 @@
                     Cities
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownCities">
-                    <a class="dropdown-item" href="#">Krakow</a>
-                    <a class="dropdown-item" href="#">Warsaw</a>
-                    <a class="dropdown-item" href="/czechowice-dziedzice">Czechowice-Dziedzice</a>
+                    <a class="dropdown-item" href="{% url 'display_routes_in_city' %}?name=Cracow">Cracow</a>
+                    <a class="dropdown-item" href="{% url 'display_routes_in_city' %}?name=Warsaw">Warsaw</a>
+                    <a class="dropdown-item" href="{% url 'display_routes_in_city' %}?name=Czechowice-Dziedzice">Czechowice-Dziedzice</a>
                 </div>
+                
               </li>
         </ul>
         

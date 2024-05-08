@@ -1,4 +1,4 @@
-var map = L.map('map').setView([51.505, -0.09], 13);
+var map = L.map('map').setView([52, 19], 6);
 var markersGroup = L.layerGroup().addTo(map);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -18,7 +18,7 @@ map.on('click', function(e) {
 }); 
 
 window.onload = function() {
-    document.getElementById('point-form').style.display = 'none'; // Hide the index field initially
+    // document.getElementById('point-form').style.display = 'none'; // Hide the index field initially
     document.getElementById('generatePathBtn').addEventListener('click', function() {
         document.getElementById('point-form').style.display = 'block'; // Show the index field when the button is clicked
     });
@@ -30,40 +30,65 @@ function generatePath() {
         return marker.getLatLng();
     });
 
-    // Clear previous content of the container
-    var container = document.getElementById('point-form');
-    container.innerHTML = '';
+    // // Clear previous content of the container
+    // var container = document.getElementById('point-form');
+    // container.innerHTML = '';
 
-    // Fetch and append the add_point_form.html content for each marker
-    markersList.forEach(function(point, index) {
-        var url = '/add-adventure/add-point';  // Use the correct URL pattern
+    // // Fetch and append the add_point_form.html content for each marker
+    // markersList.forEach(function(point, index) {
+    //     var url = '/add-adventure/add-point';  // Use the correct URL pattern
 
-        // Perform the AJAX request
-        fetch(url)
-            .then(response => response.text())  // Convert response to text
-            .then(html => {
-                // Create a temporary div element to hold the HTML content
-                var tempDiv = document.createElement('div');
-                tempDiv.innerHTML = html;
+    //     // Perform the AJAX request
+    //     fetch(url)
+    //         .then(response => response.text())  // Convert response to text
+    //         .then(html => {
+    //             // Create a temporary div element to hold the HTML content
+    //             var tempDiv = document.createElement('div');
+    //             tempDiv.innerHTML = html;
 
-                // Populate latitude and longitude fields in the form
-                var latitudeField = tempDiv.querySelector('#id_latitude');
-                var longitudeField = tempDiv.querySelector('#id_longitude');
-                var indexField = tempDiv.querySelector('#index');
-                if (latitudeField && longitudeField && indexField) {
-                    latitudeField.value = point.lat;
-                    longitudeField.value = point.lng;
-                    indexField.value = index + 1; // Index starts from 1
-                }
+    //             // Populate latitude and longitude fields in the form
+    //             var latitudeField = tempDiv.querySelector('#id_latitude');
+    //             var longitudeField = tempDiv.querySelector('#id_longitude');
+    //             var indexField = tempDiv.querySelector('#index');
+    //             if (latitudeField && longitudeField && indexField) {
+    //                 latitudeField.value = point.lat;
+    //                 longitudeField.value = point.lng;
+    //                 indexField.value = index + 1; // Index starts from 1
+    //             }
 
-                // Append the content to the container
-                container.appendChild(tempDiv.firstChild);
-            })
-            .catch(error => {
-                console.error('Error fetching add_point_form.html:', error);
-            });
-    });
-    container.style.display = 'block';
+    //             // Append the content to the container
+    //             container.appendChild(tempDiv.firstChild);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching add_point_form.html:', error);
+    //         });
+    // });
+    // container.style.display = 'block';
+
+    // NEW CODE DOESNT WORK FOR NOW
+    // // Construct the list of coordinates as a string
+    // var coordinatesString = JSON.stringify(markersList);
+
+    // // Set the value of the list_coordinates field in the form
+    // document.getElementById('id_list_coordinates').value = coordinatesString;
+
+    // // Enable the form submission
+    // document.getElementById('initialRouteForm').submit();
+
+    // Display the coordinates string on the website
+    // Construct the string of coordinates
+    var coordinatesString = markersList.map(function(coord) {
+        return "[" + coord.lat + ", " + coord.lng + "]";
+    }).join(", ");
+
+    coordinatesString = "[" + coordinatesString + "]";
+
+    // Display the coordinates string on the website
+    var coordinatesDisplay = document.getElementById('coordinatesDisplay');
+    coordinatesDisplay.textContent = coordinatesString;
+
+    // Show the coordinates display element
+    coordinatesDisplay.style.display = 'block';
 }
 
 
