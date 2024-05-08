@@ -22,45 +22,24 @@
                         <button class="btn btn-primary" id="generatePathBtn"  style="background-color: #004AAD;"  onclick="generatePath()" disabled>Generate path</button>
                     </div>
                 </div>
-                <h4>Route Description</h4>
-                <form method="post" id="routeForm">
+                <h1>Initial Route Form</h1>
+                <form method="post" action="{% url 'add-adventure' %}" class="mt-4">
                     {% csrf_token %}
-                    {{ route_form.as_p}}
-                    <input type="submit" value="Submit" class="btn" style="background-color: #004AAD;">
-                    <!-- <div class="col-3 align-self-end">
-                        <button class="btn" style="background-color: #004AAD;" type="button" onclick="addAdventure()">
-                            Add Adventure
-                        </button>
-                    </div> -->
-
-                <h4>Points description</h4>
-                <!-- {{ point_form.as_p}} -->
-                
-                <div id="point-form">
-                    {% include 'partials/add_point_form.html' %}
-                </div>
-                
-                <!-- ADD POINT BUTTON -->
-                <!-- <div class="col-3 align-self-end">
-                    <button class="btn" style="background-color: #004AAD;" type="submit"
-                    hx-get="{% url 'add-point' %}"
-                    hx-target="#point-form"
-                    hx-swap="beforeend">Add point</button>
-                </div> -->
-
-                <!-- <input type="text" id="adventureName" placeholder="Adventure Name">
-                <textarea id="adventureDescription" placeholder="Adventure Description"></textarea>
-                
-                <form id="pointForm">
-                    <input type="text" id="latitude" placeholder="Latitude" readonly>
-                    <input type="text" id="longitude" placeholder="Longitude" readonly>
-                    <input type="text" id="pointDescription" placeholder="Point Description">
+                    <div class="form-group">
+                        <label for="id_description">Description:</label>
+                        {{ form.description }}
+                    </div>
+                    <div class="form-group">
+                        <label for="id_city_name">City Name:</label>
+                        {{ form.city_name }}
+                    </div>
+                    <div class="form-group">
+                        <label for="id_list_coordinates">List of Coordinates:</label>
+                        {{ form.list_coordinates }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
-                
-                <button onclick="createAdventure()">Create</button>
-                
-
-                <div id="pointList"></div> -->
+                <div id="coordinatesDisplay" style="display: none;"></div>
             </div>
         </div>
     </div>

@@ -1,11 +1,14 @@
 from django.shortcuts import get_object_or_404, render, redirect
 
 from urbanAdventurePlanner.models import City, Point
-from .forms import RegisterForm, PointForm, RouteForm
+from .forms import InitialRouteForm, RegisterForm, PointForm, RouteForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
 from .models import Point, Route
+import openrouteservice as ors
+import ast
+import json
 
 
 
@@ -36,72 +39,62 @@ def sign_up(request):
 def password_reset(request):
     return render(request, 'registration/password_reset.html')
 
-
-# def add_adventure(request):
-#     context = {'route_form': RouteForm(), 'point_form': PointForm()}
-#     return render(request, 'main/add_adventure.html', context=context)
-
 @login_required
 def add_adventure(request):
-    print("W FUNKCJI")
     if request.method == 'POST':
-        print("POST")
-        form = RouteForm(request.POST)
+        form = InitialRouteForm(request.POST)
         if form.is_valid():
-            route = form.save(commit=False)
-            route.user_id = request.user
-            route.city_id = 1  # Assuming city_id is static
-            route.length = -1   # Assuming length is static
-            route.save()
-            return redirect(request.path)
-            # return redirect('')  # Redirect to home page after successful submission
+            city_name = form.cleaned_data['city_name']
+            description = form.cleaned_data['description']
+            path = form.cleaned_data['list_coordinates']
+
+            # path = list(path.split("\n"))
+            path = ast.literal_eval(path)
+
+            print(path)
+            print(type(path))
+            print(type(path[0]))
+
+            for i, point in enumerate(path):
+                path[i] = [point[1], point[0]]
+
+            client = ors.Client(key='5b3ce3597851110001cf62485835314fc3214662b2893514d1f706b1')
+
+            path_dict = client.directions(
+                coordinates=path,
+                profile='foot-walking',
+                format='geojson',
+                options={"avoid_features": ["steps"]},
+                validate=False,)
+            
+            answer = dict()
+            answer["distance"] = round(path_dict['features'][0]['properties']['segments'][0]['distance'], 2)
+            answer["bbox"] = path_dict['features'][0]['bbox']
+            answer["polyline"] = path_dict['features'][0]['geometry']['coordinates']
+            answer["points"] = [[path[i][1], path[i][0]] for i in range(len([path]))]
+            for i, point in enumerate(answer['polyline']):
+                answer['polyline'][i] = (point[1], point[0])
+
+            # answer = json.dumps(answer)
+            
+            # Get city object based on the provided city_name
+            city = City.objects.get(name=city_name)
+            
+            # Create the Route instance
+            route = Route.objects.create(
+                length=answer['distance'],  # Set length to -1
+                description=description,
+                city_id=city,
+                user_id=request.user,
+                path=json.dumps(answer)
+            )
+
+            
+            # Redirect to a success page or any other URL
+            return redirect('home')  # Change 'success_page' to the appropriate URL name
     else:
-        print("ELSE")
-        form = RouteForm()
-    return render(request, 'main/add_adventure.html', {'route_form': form})
-
-# @login_required
-# def add_adventure(request):
-#     print("W FUNKCJI")
-
-#     # PointFormSet = modelformset_factory(Point, form=PointForm, extra=0)
-#     # point_formset = formset_factory(PointForm, absolute_max=1500)
-#     PointFormSet = formset_factory(PointForm, extra=0, absolute_max=100, max_num=100)
-#     data = {
-#      "form-TOTAL_FORMS": "100",
-#      "form-INITIAL_FORMS": "0",
-#     }
-#     point_formset = PointFormSet(request.POST, prefix='point')
-#     point_formset
-#     print(point_formset.errors)
-
-#     print(f'YYY{point_formset.is_valid()}')
-
-#     if request.method == 'POST':
-#         route_form = RouteForm(request.POST)
-
-#         if route_form.is_valid():
-#             route = route_form.save(commit=False)
-#             route.user_id = request.user
-#             route.city_id = City.objects.get(pk=1)  # Assuming city_id is static
-#             route.length = -1  # Assuming length is static
-#             # route.save()
-
-#             print(f'point_formset: {point_formset}')
-#             pass
-#             if point_formset.is_valid():
-#                 instances = point_formset.save(commit=False)
-#                 for instance in instances:
-#                     instance.route_id = route
-#                     instance.save()
-#         else:
-#             point_formset = point_formset(request.POST, prefix='point')
-#     else:
-#         print("XXXX NIE POST")
-#         route_form = RouteForm()
-#         point_formset = point_formset(queryset=Point.objects.none(), prefix='point')
-
-#     return render(request, 'main/add_adventure.html', {'route_form': route_form, 'point_formset': point_formset})
+        form = InitialRouteForm()
+    return render(request, 'main/add_adventure.html', {'form': form})
 
     
 def add_point_form(request):
@@ -109,34 +102,23 @@ def add_point_form(request):
         pass 
     return render(request, 'partials/add_point_form.html', {'point_form': PointForm()})
 
+def display_route(request):
+    key = request.GET.get('key')
+    route = get_object_or_404(Route, pk=key)
+    return render(request, 'main/display_route.html', {'route': route})
+
+def display_routes_in_city(request):
+    city_name = request.GET.get('name')
+    city = get_object_or_404(City, name=city_name)
+    routes = Route.objects.filter(city_id=city.id)
+    return render(request, 'main/display_routes_in_city.html', {'routes': routes, 'city': city})
+
 def czechowice_dziedzice(request):
-    route = get_object_or_404(Route, pk=3)
-    return render(request, 'main/czechowice_dziedzice.html', {'route': route})
+    routes = Route.objects.filter(city_id=1)
+    return render(request, 'partials/list_routes.html', {'routes': routes})
 
 
 def krakow(request):
     route = get_object_or_404(Route, pk=3)
-
+  
     return render(request, 'main/krakow.html')
-
-
-# @login_required
-# def add_adventure(request):
-#     PointFormSet = modelformset_factory(Point, form=PointForm, extra=0)
-
-#     if request.method == 'POST':
-#         route_form = RouteForm(request.POST)
-
-#         if route_form.is_valid() and point_formset.is_valid():
-#             route = route_form.save(commit=False)
-#             route.user_id = request.user
-#             route.city_id = City.objects.get(pk=1)  # Assuming city_id is static
-#             route.length = -1  # Assuming length is static
-#             route.save()
-
-#              # extract every point-form from route_form and with id point-form and save them with point.route_id = route
-#     else:
-#         route_form = RouteForm()
-#         point_formset = PointFormSet(queryset=Point.objects.none())
-
-#     return render(request, 'main/add_adventure.html', {'route_form': route_form, 'point_formset': point_formset})

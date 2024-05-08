@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% block head %}
+<title>List of Routes</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>List of Routes</h1>
+    <div class="row">
+        {% for route in routes %}
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">City ID: {{ route.city_id }}</h5>
+                    <p class="card-text">{{ route.description }}</p>
+                    <a href="{% url 'display_route' %}?key={{ route.pk }}" class="btn btn-primary">View Route</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No routes available.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

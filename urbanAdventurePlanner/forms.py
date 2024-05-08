@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Route, Point
+from .models import City, Route, Point
 
 
 class RegisterForm(UserCreationForm):
@@ -11,25 +11,38 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ["username", "email", "password1", "password2"]
 
+class InitialRouteForm(forms.ModelForm):
+    city_name = forms.ModelChoiceField(queryset=City.objects.all(), label='City Name', widget=forms.Select)
+    list_coordinates = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}))
+
+    class Meta:
+        model = Route
+        fields = ['description', 'city_name', 'list_coordinates']
+        widgets = {
+             'city_name': forms.Select(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'rows': 4}),
+            'list_coordinates': forms.Textarea(attrs={'rows': 4}),
+        }
 
 class RouteForm(forms.ModelForm):
+    city_name = forms.CharField()
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['user_id'].required = False
         self.fields['city_id'].required = False
         self.fields['length'].required = False
-    # description = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}))
-    
 
     class Meta:
         model = Route
-        fields = ['user_id', 'city_id', 'length', 'description']
+        fields = '__all__'  # Include all fields
+        
         widgets = {
-            'user_id': forms.HiddenInput(),  # Hide user_id field (assuming it's set in the view)
+            'user_id': forms.HiddenInput(),  
             'length': forms.HiddenInput(),
             'city_id': forms.HiddenInput(),
             'description': forms.Textarea(attrs={'rows': 4}),
         }
+
 
 class PointForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
