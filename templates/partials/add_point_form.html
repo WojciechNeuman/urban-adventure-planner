@@ -1,20 +1,23 @@
-<form style="margin-bottom: 10px;" id="point-form">
-    <div class="row row-cols-4">
-        <div class="col-sm-1">
+<form>
+    <div class="row">
+        <div class="col-4 col-md-2">
             <label for="index{{ index }}">Index</label>
             <input type="text" id="index{{ index }}" name="index{{ index }}" value="{{ index }}">
         </div>
-        <div class="col-sm-2">
+        <div class="col-4 col-md-2">
             <label for="{{ point_form.latitude.id_for_label }}">{{ point_form.latitude.label }}</label>
-            <input type="text" id="{{ point_form.latitude.id_for_label }}" name="{{ point_form.latitude.name }}" value="{{ point_form.latitude.value }}">
+            {{ point_form.latitude }}
         </div>
-        <div class="col-sm-2">
+        <div class="col-4 col-md-2">
             <label for="{{ point_form.longitude.id_for_label }}">{{ point_form.longitude.label }}</label>
-            <input type="text" id="{{ point_form.longitude.id_for_label }}" name="{{ point_form.longitude.name }}" value="{{ point_form.longitude.value }}">
+            {{ point_form.longitude }}
         </div>
-        <div class="col-sm-6">
+        <div class="col-4 col-md-2">
             <label for="{{ point_form.description.id_for_label }}">{{ point_form.description.label }}</label>
             {{ point_form.description }}
+        </div>
+        <div class="col-3 align-self-end">
+            <button class="btn" style="background-color: #004AAD" type="submit">Submit</button>
         </div>
     </div>
 </form>

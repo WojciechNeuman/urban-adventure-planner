@@ -23,27 +23,44 @@
                     </div>
                 </div>
                 <h4>Route Description</h4>
-                <form id="route-form" method="post" action="{% url 'add-adventure' %}">
+                <form method="post" id="routeForm">
                     {% csrf_token %}
-                    {{ route_form.as_p }}
-                
-                    <h4>Points description</h4>
-                    <div id="all-point-forms">
-                        {{ point_formset.management_form }}
-                        {% for form in point_formset %}
-                            {{ form.as_p }}
-                        {% endfor %}
-                    </div>
-                
-                    <input type="submit" value="Add adventure">
-                </form>
-            </div>
+                    {{ route_form.as_p}}
+                    <input type="submit" value="Submit" class="btn" style="background-color: #004AAD;">
+                    <!-- <div class="col-3 align-self-end">
+                        <button class="btn" style="background-color: #004AAD;" type="button" onclick="addAdventure()">
+                            Add Adventure
+                        </button>
+                    </div> -->
 
-            <button onclick="displayFormInfo()">Display Form Info</button>
-            <div class="col-3 align-self-end">
-                <button class="btn" style="background-color: #004AAD;" type="button" onclick="addAdventure()">
-                    Add Adventure
-                </button>
+                <h4>Points description</h4>
+                <!-- {{ point_form.as_p}} -->
+                
+                <div id="point-form">
+                    {% include 'partials/add_point_form.html' %}
+                </div>
+                
+                <!-- ADD POINT BUTTON -->
+                <!-- <div class="col-3 align-self-end">
+                    <button class="btn" style="background-color: #004AAD;" type="submit"
+                    hx-get="{% url 'add-point' %}"
+                    hx-target="#point-form"
+                    hx-swap="beforeend">Add point</button>
+                </div> -->
+
+                <!-- <input type="text" id="adventureName" placeholder="Adventure Name">
+                <textarea id="adventureDescription" placeholder="Adventure Description"></textarea>
+                
+                <form id="pointForm">
+                    <input type="text" id="latitude" placeholder="Latitude" readonly>
+                    <input type="text" id="longitude" placeholder="Longitude" readonly>
+                    <input type="text" id="pointDescription" placeholder="Point Description">
+                </form>
+                
+                <button onclick="createAdventure()">Create</button>
+                
+
+                <div id="pointList"></div> -->
             </div>
         </div>
     </div>

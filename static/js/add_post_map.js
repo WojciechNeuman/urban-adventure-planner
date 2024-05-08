@@ -17,6 +17,13 @@ map.on('click', function(e) {
     toggleButtonState(true);
 }); 
 
+window.onload = function() {
+    document.getElementById('point-form').style.display = 'none'; // Hide the index field initially
+    document.getElementById('generatePathBtn').addEventListener('click', function() {
+        document.getElementById('point-form').style.display = 'block'; // Show the index field when the button is clicked
+    });
+};
+
 function generatePath() {
     var markers = markersGroup.getLayers();
     var markersList = markers.map(function(marker) {

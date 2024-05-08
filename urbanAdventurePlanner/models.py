@@ -16,7 +16,8 @@ class City(models.Model):
 class Route(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     city_id = models.ForeignKey(City, on_delete=models.CASCADE)
-    length = models.IntegerField()
+    path = models.TextField()
+    length = models.DecimalField(max_digits=6, decimal_places=2)
     description = models.TextField()
 
     def __str__(self):

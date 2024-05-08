@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+
+{% load static %}
+
+{% block head %}
+<title>UAP - Czechowice Dziedzice</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="route-details p-4">
+                <h1 class="mb-4">Route Details</h1>
+                <div class="mb-3">
+                    <strong>User:</strong> {{ route.user_id.username }}
+                </div>
+                <div class="mb-3">
+                    <strong>City:</strong> {{ route.city_id.name }}
+                </div>
+                <div class="mb-3">
+                    <strong>Length:</strong> {{ route.length }}
+                </div>
+                <div class="mb-3">
+                    <strong>Description:</strong> {{ route.description }}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div id="map" style="height: 600px;"></div>
+        </div>
+    </div>
+</div>
+
+{{ route.path | json_script:"route_path" }}
+
+<script src="{% static 'js/display_route_map.js' %}"></script>
+{% endblock %}
