@@ -1,11 +1,4 @@
-{% extends 'main/base.html' %}
-{% block head %}
-<title>List of Routes</title>
-{% endblock %}
-
-{% block body %}
 <div class="container">
-    <h1>List of Routes</h1>
     <div class="row">
         {% for route in routes %}
         <div class="col-lg-4 mb-4">
@@ -22,4 +15,3 @@
         {% endfor %}
     </div>
 </div>
-{% endblock %}

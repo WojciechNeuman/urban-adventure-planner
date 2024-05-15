@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
-
+from django.contrib import messages
 from urbanAdventurePlanner.models import City, Point
 from .forms import InitialRouteForm, RegisterForm, PointForm, RouteForm
 from django.contrib.auth import login, logout, authenticate
@@ -15,10 +15,14 @@ import json
 # from  django.contrib.auth.decorators import login_required
 # @login_required(login_url='/login')
 def home(request):
-    return render(request, 'main/home.html')
+    routes = Route.objects.all()
+    return render(request, 'main/home.html', {'routes': routes})
 
+@login_required
 def profile(request):
-    return render(request, 'main/profile.html')
+    user = request.user
+    routes = Route.objects.filter(user_id=user)
+    return render(request, 'main/profile.html', {'routes': routes, 'user': user})
 
 def sign_up(request):
     if request.method == "POST":

@@ -9,34 +9,44 @@
 {% block body %}
 
 <div class="container-fluid">
-    <div class="row h-100">
-        <div class="col-lg-6 d-flex flex-column justify-content-between align-items-stretch" style="padding: 5%;">
-            <div id="map" style="width: 600px; height: 600px;"></div>
+    <div class="row">
+        <!-- Left container for map -->
+        <div class="col-lg-6 d-flex justify-content-center align-items-center">
+            <div id="map" style="width: 100%; height: 600px;"></div>
         </div>
-        <!-- Right container -->
+        <!-- Right container for form -->
         <div class="col-lg-6 d-flex flex-column justify-content-center align-items-center">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <p style="color: #004AAD; font-size: 1.2rem;">Add points on the map</p>
-                        <button class="btn btn-primary" id="generatePathBtn"  style="background-color: #004AAD;"  onclick="generatePath()" disabled>Generate path</button>
+                        <p style="color: #004AAD; font-size: 1.2rem;">Add points on the map -> Click 'Generate coordinates' -> Paste list of coordinates to the form</p>
+                        <button class="btn btn-primary" id="generatePathBtn" style="background-color: #004AAD;" onclick="generatePath()" disabled>Generate coordinates</button>
                     </div>
                 </div>
                 <h1>Initial Route Form</h1>
                 <form method="post" action="{% url 'add-adventure' %}" class="mt-4">
                     {% csrf_token %}
-                    <div class="form-group">
-                        <label for="id_description">Description:</label>
-                        {{ form.description }}
+                    <div class="form-group row">
+                        <label for="id_description" class="col-sm-2 col-form-label">Description:</label>
+                        <div class="col-sm-10">
+                            {{ form.description }}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="id_city_name">City Name:</label>
-                        {{ form.city_name }}
+                    
+                    <div class="form-group row">
+                        <label for="id_city_name" class="col-sm-2 col-form-label">City Name:</label>
+                        <div class="col-sm-10">
+                            {{ form.city_name }}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="id_list_coordinates">List of Coordinates:</label>
-                        {{ form.list_coordinates }}
+                    
+                    <div class="form-group row">
+                        <label for="id_list_coordinates" class="col-sm-2 col-form-label">List of Coordinates:</label>
+                        <div class="col-sm-10">
+                            {{ form.list_coordinates }}
+                        </div>
                     </div>
+                    
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
                 <div id="coordinatesDisplay" style="display: none;"></div>
@@ -45,7 +55,7 @@
     </div>
 </div>
 
+
 <script src="{% static 'js/add_post_map.js' %}"></script>
 
 {% endblock %}
- 

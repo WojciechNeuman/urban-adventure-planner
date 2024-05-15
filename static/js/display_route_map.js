@@ -1,4 +1,4 @@
-var map = L.map('map').setView([49.883300, 19.050000], 12);
+var map = L.map('map');
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -32,6 +32,16 @@ document.addEventListener("DOMContentLoaded", function() {
     map.fitBounds(polyline.getBounds());
 
     var pointsCoords = routeData.points;
+
+    // Check if there are points available
+    if (pointsCoords.length > 0) {
+        // Get the coordinates of the first point
+        var firstPointCoord = pointsCoords[0];
+        var firstPointLatLng = L.latLng(firstPointCoord[0], firstPointCoord[1]);
+
+        // Set the map's view to the coordinates of the first point
+        map.setView(firstPointLatLng, 12);
+    }
 
     // Iterate over points coordinates and create LatLng objects
     for (var i = 0; i < pointsCoords.length; i++) {

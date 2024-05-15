@@ -1,17 +1,25 @@
 {% extends 'main/base.html' %}
 
 {% block head %}
-<title>UAP - profile</title>
-{% endblock %} 
+<title>UAP - Profile</title>
+{% endblock %}
 
 {% block body %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h1 class="text-center">PROFILE</h1>
-            <div class="text-center">
+        <div class="col-md-6">
+            <div class="profile-section">
+                <h1 class="text-center">{{ user.username }} profile</h1>
+            </div>
+            <div class="text-center mb-3">
                 <a href="/password-reset" class="btn btn-primary" style="background-color: #8C00FF99;">Reset Password</a>
                 <a href="/logout" class="btn btn-primary" style="background-color: #8C00FF99;">Logout</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2 class="text-center">Your Routes:</h2>
+            <div class="list-routes-section">
+                {% include '../partials/list_routes.html' %}
             </div>
         </div>
     </div>
